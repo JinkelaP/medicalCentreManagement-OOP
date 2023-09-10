@@ -15,6 +15,10 @@ class Patient:
     def myDoctor(self):
         return self.__myDoctor
     
+    @myDoctor.setter
+    def assignDoc(self, id):
+        self.__myDoctor = id
+    
     @property
     def myPatientFName(self):
         return self.__myPatientFName
