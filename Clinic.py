@@ -68,7 +68,12 @@ class Clinic:
         if type(patient) is str:
             return patient
         else:
-            return f'ID: {patient.myPatientID}\nName: {patient.myPatientFName} {patient.myPatientLName}\nAssigned Doctor: {patient.myDoctor}'
+            if patient.myDoctor == 'n/a':
+                doctorPrint = patient.myDoctor
+            else:
+                doctor = self.searchDoctor(int(patient.myDoctor))
+                doctorPrint = f'{doctor.myDoctorFName} {doctor.myDoctorLName}'
+            return f'ID: {patient.myPatientID}\nName: {patient.myPatientFName} {patient.myPatientLName}\nAssigned Doctor: {doctorPrint}'
     
     def displayConsultation(self, id):
         c = self.searchConsultation(id)

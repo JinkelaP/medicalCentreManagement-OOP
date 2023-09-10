@@ -49,7 +49,7 @@ def displayPatientInfo(event):
 
     if selected:
         patientStr = boxPatients.get(selected[0])
-        patID = int(patientStr[0:5])
+        patID = int(patientStr[0:6])
         showinfo(title = 'Patient info', message = cc.displayPatient(patID))
 
 def displayDocInfo(event):
@@ -60,7 +60,22 @@ def displayDocInfo(event):
         docID = int(docStr[0:5])
         showinfo(title = 'Doctor info', message = cc.displayDoctor(docID))
 
-    
+def assignDoctor():
+    patIndex = boxPatients.curselection()
+    docIndex = boxDocs.curselection()
+
+    if patIndex and docIndex:
+        patientStr = boxPatients.get(patIndex[0])
+        patID = int(patientStr[0:6])
+
+        docStr = boxDocs.get(docIndex[0])
+        docID = int(docStr[0:5])
+        showinfo(title = 'Assign Doctor', message = cc.assignDoctorPatient(docID, patID))
+
+    else:
+        showinfo(title = 'Assign Doctor', message = 'Either doctor or patient is not chosen.\nPlease single-click them and then assign.')
+
+
 
 
 
@@ -88,6 +103,10 @@ frmOperation.pack(padx=5, pady=5, side=tk.TOP)
 # read file and create
 readButton = ttk.Button(frmOperation, text="Read file", command=readFile)
 readButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk.LEFT)
+
+# Assign doctor
+assignButton = ttk.Button(frmOperation, text="Assign Doctor", command=assignDoctor)
+assignButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk.LEFT)
 
 # frame displayInfo
 frmdisplayInfo = ttk.LabelFrame(root, text='Display')

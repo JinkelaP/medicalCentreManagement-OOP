@@ -16,7 +16,7 @@ class Patient:
         return self.__myDoctor
     
     @myDoctor.setter
-    def assignDoc(self, id):
+    def myDoctor(self, id):
         self.__myDoctor = id
     
     @property
