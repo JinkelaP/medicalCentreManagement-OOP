@@ -9,13 +9,13 @@ class Clinic:
         self.allConsultations = []
 
     # add new objects into lists
-    def newPatient(self, myDoctor, fName, lName):
-        onePatient = Patient(myDoctor, fName, lName)
+    def newPatient(self, fName, lName):
+        onePatient = Patient('n/a', fName, lName)
         self.allPatients.append(onePatient)
         return 'Patient created'
 
     def newDoctor(self, fName, lName, spec):
-        oneDoctor = Patient(fName, lName, spec)
+        oneDoctor = Doctor(fName, lName, spec)
         self.allDoctors.append(oneDoctor)
         return 'Doctor created'
 
@@ -23,14 +23,14 @@ class Clinic:
     def searchDoctor(self, id):
         for doctor in self.allDoctors:
             if doctor.myDoctorID == id:
-                return str(doctor)
+                return doctor
         else:
             return 'Doctor not found.'
     
     def searchPatient(self, id):
         for patient in self.allPatients:
             if patient.myPatientID == id:
-                return str(patient)
+                return patient
         else:
             return 'Patient not found.'
     
@@ -51,20 +51,24 @@ class Clinic:
 
     # Add a consultation
     def newConsultation(self, date, docID, patID, reason, fee):
-        doctor = self.searchDoctor(docID)
-        patient = self.searchPatient(patID)
-        oneConsultation = Consultation(date, doctor, patient, reason, fee)
+        oneConsultation = Consultation(date, docID, patID, reason, fee)
         self.allConsultations.append(oneConsultation)
         return 'Consultation created'
 
     #Display information
     def displayDoctor(self, docID):
         doctor = self.searchDoctor(docID)
-        return doctor
+        if type(doctor) is str:
+            return doctor
+        else:
+            return f'ID: {doctor.myDoctorID}\nName: {doctor.myDoctorFName} {doctor.myDoctorLName}\nSpecialisation: {doctor.myDoctorSpec}'
     
     def displayPatient(self, patID):
         patient = self.searchPatient(patID)
-        return patient
+        if type(patient) is str:
+            return patient
+        else:
+            return f'ID: {patient.myPatientID}\nName: {patient.myPatientFName} {patient.myPatientLName}\nAssigned Doctor: {patient.myDoctor}'
     
     def displayConsultation(self, id):
         c = self.searchConsultation(id)
