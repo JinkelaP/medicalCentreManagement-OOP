@@ -1,6 +1,7 @@
 from Doctor import Doctor
 from Patient import Patient
 from Consultation import Consultation
+from decimal import Decimal
 
 class Clinic:
     def __init__(self):
@@ -35,11 +36,15 @@ class Clinic:
             return 'Patient not found.'
     
     def searchConsultation(self, id):
+        consultationList = []
         for c in self.allConsultations:
             if c.myCDoctor == id or c.myCPatient == id:
-                return str(c)
+                consultationList.append(c)
+        
+        if consultationList == []:
+            return 'No consultation found.'
         else:
-            return 'Consultation not found.'
+            return consultationList
             
     
     # Assign doctor to a patient
@@ -51,17 +56,50 @@ class Clinic:
 
     # Add a consultation
     def newConsultation(self, date, docID, patID, reason, fee):
-        oneConsultation = Consultation(date, docID, patID, reason, fee)
+        try:
+            feeDecimal = Decimal(fee)
+        except:
+            return 'Fee must be number, allowing two decimals.'
+        oneConsultation = Consultation(date, docID, patID, reason, feeDecimal)
         self.allConsultations.append(oneConsultation)
         return 'Consultation created'
 
     #Display information
+    # def displayDoctor(self, docID):
+    #     doctor = self.searchDoctor(docID)
+    #     if type(doctor) is str:
+    #         return doctor
+    #     else:
+    #         return f'ID: {doctor.myDoctorID}\nName: {doctor.myDoctorFName} {doctor.myDoctorLName}\nSpecialisation: {doctor.myDoctorSpec}'
+
     def displayDoctor(self, docID):
         doctor = self.searchDoctor(docID)
         if type(doctor) is str:
             return doctor
         else:
-            return f'ID: {doctor.myDoctorID}\nName: {doctor.myDoctorFName} {doctor.myDoctorLName}\nSpecialisation: {doctor.myDoctorSpec}'
+            patientDocList = []
+            for p in self.allPatients:
+                if p.myDoctor == docID:
+                    patientDocList.append(p)
+            
+            if patientDocList != []:
+                patientDocAll = ''
+                for i in patientDocList:
+                    patientDocAll += f'{str(i)}\n'
+            else:
+                patientDocAll = 'No patient assigned yet.'
+            
+            
+            doctorConsultation = self.searchConsultation(docID)
+            if doctorConsultation != 'No consultation found.':
+                doctorConsultAll = ''
+                for i in doctorConsultation:
+                    patName = f'{self.searchPatient(i.myCPatient).myPatientFName} {self.searchPatient(i.myCPatient).myPatientLName}'
+                    doctorConsultAll += f'{i.myCDate} {patName} // {i.myCReason} // {i.myFee} NZD\n'
+            else:
+                doctorConsultAll = 'No consultation yet.'
+                
+            return f'ID: {doctor.myDoctorID}\nName: {doctor.myDoctorFName} {doctor.myDoctorLName}\nSpecialisation: {doctor.myDoctorSpec}\n\nPatients:\n{patientDocAll}\n\nConsultations:\n{doctorConsultAll}'
     
     def displayPatient(self, patID):
         patient = self.searchPatient(patID)
@@ -73,11 +111,34 @@ class Clinic:
             else:
                 doctor = self.searchDoctor(int(patient.myDoctor))
                 doctorPrint = f'{doctor.myDoctorFName} {doctor.myDoctorLName}'
-            return f'ID: {patient.myPatientID}\nName: {patient.myPatientFName} {patient.myPatientLName}\nAssigned Doctor: {doctorPrint}'
+            
+            patConsultation = self.searchConsultation(patID)
+            if patConsultation != 'No consultation found.':
+                patConsultAll = ''
+                patFeeAll = Decimal(0.00)
+                for i in patConsultation:
+                    doctorName = f'{self.searchDoctor(i.myCDoctor).myDoctorFName} {self.searchDoctor(i.myCDoctor).myDoctorLName}'
+                    patConsultAll += f'{i.myCDate} {doctorName} // {i.myCReason} // {i.myFee} NZD\n'
+                    patFeeAll += i.myFee
+                patFeeAll = str(patFeeAll)
+                patFeeAll += ' NZD due.'
+                
+            else:
+                patConsultAll = 'No consultation yet.'
+                patFeeAll = 'n/a'
+
+            return f'ID: {patient.myPatientID}\nName: {patient.myPatientFName} {patient.myPatientLName}\nAssigned Doctor: {doctorPrint}\n\nConsultations:\n{patConsultAll}\n\nTotal fees:\n{patFeeAll}'
     
-    def displayConsultation(self, id):
-        c = self.searchConsultation(id)
-        return c
+    def displayConsult(self, id):
+        consultList = ''
+        for i in self.allConsultations:
+            if i.myCDoctor == id or i.myCPatient == id:
+                consultList += f'{str(i)}'
+        
+        if consultList == '':
+            return 'The doctor/patient do not have any previous consultation.'
+        else:
+            return consultList
     
     def displayAllPat(self):
         patList = ''
@@ -112,16 +173,19 @@ class Clinic:
         else:
             return 'These patients are managed by the doctor:\n' + docsPatList
     
-    def displayConsult(self, id):
+    def displayAllConsult(self):
         consultList = ''
+        totalFee = Decimal(0.00)
         for i in self.allConsultations:
-            if i.myCDoctor == id or i.myCPatient == id:
-                consultList += f'{str(i)}'
+            doctorName = f'{self.searchDoctor(i.myCDoctor).myDoctorFName} {self.searchDoctor(i.myCDoctor).myDoctorLName}'
+            patName = f'{self.searchPatient(i.myCPatient).myPatientFName} {self.searchPatient(i.myCPatient).myPatientLName}'
+            consultList += f'{i.myCDate} {doctorName} {patName} // {i.myCReason} // {i.myFee} NZD \n'
+            totalFee += i.myFee
         
         if consultList == '':
-            return 'The doctor/patient do not have any previous consultation.'
+            return 'The medical centre do not have any previous consultation.'
         else:
-            return consultList
+            return f'Consultation Report for medical center: \n\n{consultList}\nTotal fee: {str(totalFee)} NZD'
     
 
     
