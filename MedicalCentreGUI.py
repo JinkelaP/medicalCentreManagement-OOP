@@ -6,6 +6,8 @@ from Clinic import Clinic
 cc = Clinic()
 
 # many functions
+
+# read files and import from files
 readFileStatus = None
 def readFile():
     try:
@@ -44,6 +46,7 @@ def readFile():
         msg = f'Read file FAILED.'
         showinfo(title = 'ERROR', message = msg)
 
+# msg box for displaying full patient information
 def displayPatientInfo(event):
     selected = boxPatients.curselection()
 
@@ -52,6 +55,7 @@ def displayPatientInfo(event):
         patID = int(patientStr[0:6])
         showinfo(title = 'Patient info', message = cc.displayPatient(patID))
 
+# msg box for displaying full doctor information
 def displayDocInfo(event):
     selected = boxDocs.curselection()
 
@@ -60,6 +64,7 @@ def displayDocInfo(event):
         docID = int(docStr[0:5])
         showinfo(title = 'Doctor info', message = cc.displayDoctor(docID))
 
+# get ID number and assign the doctor
 def assignDoctor():
     patIndex = boxPatients.curselection()
     docIndex = boxDocs.curselection()
@@ -75,10 +80,11 @@ def assignDoctor():
     else:
         showinfo(title = 'Assign Doctor', message = 'Either doctor or patient is not chosen.\nPlease single-click them and then assign.')
 
-
+# show all consults
 def allConsult():
     showinfo(title = 'All consultations', message = cc.displayAllConsult())
 
+# create a consultation by getting info from variables
 def createConsult():
     patIndex = boxPatients.curselection()
     docIndex = boxDocs.curselection()
