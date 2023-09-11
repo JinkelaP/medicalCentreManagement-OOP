@@ -68,14 +68,8 @@ class Clinic:
             self.allConsultations.append(oneConsultation)
             return 'Consultation created'
 
-    #Display information
-    # def displayDoctor(self, docID):
-    #     doctor = self.searchDoctor(docID)
-    #     if type(doctor) is str:
-    #         return doctor
-    #     else:
-    #         return f'ID: {doctor.myDoctorID}\nName: {doctor.myDoctorFName} {doctor.myDoctorLName}\nSpecialisation: {doctor.myDoctorSpec}'
 
+    # display the info of a doctor
     def displayDoctor(self, docID):
         doctor = self.searchDoctor(docID)
         if type(doctor) is str:
@@ -105,6 +99,7 @@ class Clinic:
                 
             return f'ID: {doctor.myDoctorID}\nName: {doctor.myDoctorFName} {doctor.myDoctorLName}\nSpecialisation: {doctor.myDoctorSpec}\n\nPatients:\n{patientDocAll}\n\nConsultations:\n{doctorConsultAll}'
     
+    ## display the info of a patient
     def displayPatient(self, patID):
         patient = self.searchPatient(patID)
         if type(patient) is str:
@@ -133,6 +128,7 @@ class Clinic:
 
             return f'ID: {patient.myPatientID}\nName: {patient.myPatientFName} {patient.myPatientLName}\nAssigned Doctor: {doctorPrint}\n\nConsultations:\n{patConsultAll}\n\nTotal fees:\n{patFeeAll}'
     
+    #display the consultation related to a member
     def displayConsult(self, id):
         consultList = ''
         for i in self.allConsultations:
@@ -144,6 +140,7 @@ class Clinic:
         else:
             return consultList
     
+    # show all patients
     def displayAllPat(self):
         patList = ''
 
@@ -155,6 +152,7 @@ class Clinic:
         else:
             return patList
     
+    # show all doctors
     def displayAllDoc(self):
         docList = ''
 
@@ -166,6 +164,7 @@ class Clinic:
         else:
             return docList
     
+    # show the patients that a doctor manage
     def displayDocsPat(self, docID):
         docsPatList = ''
         for pat in self.allPatients:
@@ -177,6 +176,7 @@ class Clinic:
         else:
             return 'These patients are managed by the doctor:\n' + docsPatList
     
+    # show all consultations and create a report
     def displayAllConsult(self):
         consultList = ''
         totalFee = Decimal(0.00)
