@@ -107,14 +107,14 @@ def createConsult():
 # Initialise Sys
 
 root = tk.Tk()
-root.title("Medical Centre Management System - beta 0.1")
+root.title("Medical Centre Management System - beta 0.1 made by Haochen")
 root.geometry("600x700+100+100")
 root.resizable(width=False, height=False)
 
 # widgets
 
 # header
-header = ttk.Label(root,text='Welcome to medical centre!', font=("Arial bold", 30))
+header = ttk.Label(root,text="Welcome to medical centre!", font=("Arial bold", 30))
 header.pack(ipadx=10, ipady=10)
 
 # frame operation
