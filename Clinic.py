@@ -56,13 +56,17 @@ class Clinic:
 
     # Add a consultation
     def newConsultation(self, date, docID, patID, reason, fee):
-        try:
-            feeDecimal = Decimal(fee)
-        except:
-            return 'Fee must be number, allowing two decimals.'
-        oneConsultation = Consultation(date, docID, patID, reason, feeDecimal)
-        self.allConsultations.append(oneConsultation)
-        return 'Consultation created'
+        docAssigned = self.searchPatient(patID).myDoctor
+        if docAssigned != docID:
+            return 'Caution! Either:\n\n The doctor you chosed is not the one assigned to the patient! \n\nOr \n\nYou have not assigned a doctor to the patient.'
+        else:
+            try:
+                feeDecimal = Decimal(fee)
+            except:
+                return 'Fee must be number, allowing two decimals.'
+            oneConsultation = Consultation(date, docID, patID, reason, feeDecimal)
+            self.allConsultations.append(oneConsultation)
+            return 'Consultation created'
 
     #Display information
     # def displayDoctor(self, docID):
@@ -136,7 +140,7 @@ class Clinic:
                 consultList += f'{str(i)}'
         
         if consultList == '':
-            return 'The doctor/patient do not have any previous consultation.'
+            return 'The doctor/patient does not have any previous consultation.'
         else:
             return consultList
     
@@ -183,7 +187,7 @@ class Clinic:
             totalFee += i.myFee
         
         if consultList == '':
-            return 'The medical centre do not have any previous consultation.'
+            return 'The medical centre does not have any previous consultation.'
         else:
             return f'Consultation Report for medical center: \n\n{consultList}\nTotal fee: {str(totalFee)} NZD'
     
