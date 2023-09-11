@@ -76,18 +76,33 @@ def assignDoctor():
         showinfo(title = 'Assign Doctor', message = 'Either doctor or patient is not chosen.\nPlease single-click them and then assign.')
 
 
+def allConsult():
+    showinfo(title = 'All consultations', message = cc.displayAllConsult())
 
+def createConsult():
+    patIndex = boxPatients.curselection()
+    docIndex = boxDocs.curselection()
 
+    if patIndex and docIndex:
+        patientStr = boxPatients.get(patIndex[0])
+        patID = int(patientStr[0:6])
 
+        docStr = boxDocs.get(docIndex[0])
+        docID = int(docStr[0:5])
+        showinfo(title = 'Create consultation', message = cc.newConsultation(consultationDate.get(), \
+                                                                         docID, patID, consultationReason.get(), \
+                                                                        consultationFee.get()))
 
+    else:
+        showinfo(title = 'Create consultation', message = 'Either doctor or patient is not chosen.\nPlease single-click them and then submit.')
 
-
+    
 
 # Initialise Sys
 
 root = tk.Tk()
 root.title("Medical Centre Management System - beta 0.1")
-root.geometry("600x1000+100+100")
+root.geometry("600x700+100+100")
 root.resizable(width=False, height=False)
 
 # widgets
@@ -107,6 +122,10 @@ readButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk
 # Assign doctor
 assignButton = ttk.Button(frmOperation, text="Assign Doctor", command=assignDoctor)
 assignButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk.LEFT)
+
+# Consultation report
+allConsultButton = ttk.Button(frmOperation, text="Consultation report", command=allConsult)
+allConsultButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk.LEFT)
 
 # frame displayInfo
 frmdisplayInfo = ttk.LabelFrame(root, text='Display')
@@ -131,6 +150,38 @@ boxDocs.pack(fill=tk.BOTH, padx=20, pady=7,side=tk.LEFT)
 consultationDate = tk.StringVar()
 consultationReason = tk.StringVar()
 consultationFee = tk.StringVar()
+
+# frame consult
+frmCreateConsult = ttk.LabelFrame(root, text='Create Consultation', width=300, height=300)
+frmCreateConsult.pack(ipadx=80, ipady=80, padx=10, pady=10,side=tk.TOP)
+
+# date
+dateLabel = ttk.Label(frmCreateConsult, text="Date")
+dateLabel.pack(fill='x', expand=True, padx=20)
+
+dateEntry = ttk.Entry(frmCreateConsult, textvariable=consultationDate)
+dateEntry.pack(fill='x', expand=True, padx=20)
+dateEntry.focus()
+
+# Reason
+reasonLabel = ttk.Label(frmCreateConsult, text="Reason")
+reasonLabel.pack(fill='x', expand=True, padx=20)
+
+reasonEntry = ttk.Entry(frmCreateConsult, textvariable=consultationReason)
+reasonEntry.pack(fill='x', expand=True, ipadx=30, ipady=30, padx=20)
+reasonEntry.focus()
+
+# Fee
+feeLabel = ttk.Label(frmCreateConsult, text="Fee (NZD)")
+feeLabel.pack(fill='x', expand=True, padx=20)
+
+feeEntry = ttk.Entry(frmCreateConsult, textvariable=consultationFee)
+feeEntry.pack(fill='x', expand=True, padx=20)
+feeEntry.focus()
+
+# submit
+submitButton = ttk.Button(frmCreateConsult, text="Submit", command=createConsult)
+submitButton.pack(fill='x', expand=True, padx=90, pady=10)
 
 
 
