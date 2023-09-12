@@ -93,7 +93,7 @@ class Clinic:
                 doctorConsultAll = ''
                 for i in doctorConsultation:
                     patName = f'{self.searchPatient(i.myCPatient).myPatientFName} {self.searchPatient(i.myCPatient).myPatientLName}'
-                    doctorConsultAll += f'{i.myCDate} {patName} // {i.myCReason} // {i.myFee} NZD\n'
+                    doctorConsultAll += f'{i.myCDate} // {patName} // {i.myCReason} // {i.myFee} NZD\n'
             else:
                 doctorConsultAll = 'No consultation yet.'
                 
@@ -117,7 +117,7 @@ class Clinic:
                 patFeeAll = Decimal(0.00)
                 for i in patConsultation:
                     doctorName = f'{self.searchDoctor(i.myCDoctor).myDoctorFName} {self.searchDoctor(i.myCDoctor).myDoctorLName}'
-                    patConsultAll += f'{i.myCDate} {doctorName} // {i.myCReason} // {i.myFee} NZD\n'
+                    patConsultAll += f'{i.myCDate} // {doctorName} // {i.myCReason} // {i.myFee} NZD\n'
                     patFeeAll += i.myFee
                 patFeeAll = str(patFeeAll)
                 patFeeAll += ' NZD due.'
@@ -183,7 +183,7 @@ class Clinic:
         for i in self.allConsultations:
             doctorName = f'{self.searchDoctor(i.myCDoctor).myDoctorFName} {self.searchDoctor(i.myCDoctor).myDoctorLName}'
             patName = f'{self.searchPatient(i.myCPatient).myPatientFName} {self.searchPatient(i.myCPatient).myPatientLName}'
-            consultList += f'{i.myCDate} {doctorName} {patName} // {i.myCReason} // {i.myFee} NZD \n'
+            consultList += f'{i.myCDate} // {doctorName} // {patName} // {i.myCReason} // {i.myFee} NZD \n'
             totalFee += i.myFee
         
         if consultList == '':
