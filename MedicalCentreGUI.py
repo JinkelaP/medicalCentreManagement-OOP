@@ -2,8 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 from Clinic import Clinic
+from datetime import datetime
 
 cc = Clinic()
+
+currentDate = datetime.now().strftime('%Y-%m-%d')
+currentTime = datetime.now().strftime('%H:%M:%S')
 
 # many functions
 
@@ -95,12 +99,21 @@ def createConsult():
 
         docStr = boxDocs.get(docIndex[0])
         docID = int(docStr[0:5])
-        showinfo(title = 'Create consultation', message = cc.newConsultation(consultationDate.get(), \
+
+        datetimeConsult = f'{consultationDate.get()} {consultationTime.get()}'
+        showinfo(title = 'Create consultation', message = cc.newConsultation(datetimeConsult, \
                                                                          docID, patID, consultationReason.get(), \
                                                                         consultationFee.get()))
 
     else:
         showinfo(title = 'Create consultation', message = 'Either doctor or patient is not chosen.\nPlease single-click them and then submit.')
+
+# create date
+def createDate():
+    currentDateNew = datetime.now().strftime('%Y-%m-%d')
+    currentTimeNew = datetime.now().strftime('%H:%M:%S')
+    consultationDate.set(currentDateNew)
+    consultationTime.set(currentTimeNew)
 
     
 
@@ -108,7 +121,7 @@ def createConsult():
 
 root = tk.Tk()
 root.title("Medical Centre Management System - beta 0.1 made by Haochen")
-root.geometry("600x700+100+100")
+root.geometry("600x800+100+100")
 root.resizable(width=False, height=False)
 
 # widgets
@@ -156,6 +169,10 @@ boxDocs.pack(fill=tk.BOTH, padx=20, pady=7,side=tk.LEFT)
 consultationDate = tk.StringVar()
 consultationReason = tk.StringVar()
 consultationFee = tk.StringVar()
+consultationTime = tk.StringVar()
+
+consultationDate.set(currentDate)
+consultationTime.set(currentTime)
 
 # frame consult
 frmCreateConsult = ttk.LabelFrame(root, text='Create Consultation', width=300, height=300)
@@ -168,6 +185,14 @@ dateLabel.pack(fill='x', expand=True, padx=20)
 dateEntry = ttk.Entry(frmCreateConsult, textvariable=consultationDate)
 dateEntry.pack(fill='x', expand=True, padx=20)
 dateEntry.focus()
+
+# time
+timeLabel = ttk.Label(frmCreateConsult, text="Time")
+timeLabel.pack(fill='x', expand=True, padx=20)
+
+timeEntry = ttk.Entry(frmCreateConsult, textvariable=consultationTime)
+timeEntry.pack(fill='x', expand=True, padx=20)
+timeEntry.focus()
 
 # Reason
 reasonLabel = ttk.Label(frmCreateConsult, text="Reason")
@@ -185,9 +210,18 @@ feeEntry = ttk.Entry(frmCreateConsult, textvariable=consultationFee)
 feeEntry.pack(fill='x', expand=True, padx=20)
 feeEntry.focus()
 
+# frame operation
+frmOperation2 = ttk.LabelFrame(frmCreateConsult, text='')
+frmOperation2.pack(padx=5, pady=5, side=tk.TOP)
+
+# date
+dateButton = ttk.Button(frmOperation2, text="Current Date&Time", command=createDate)
+dateButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk.LEFT)
+
 # submit
-submitButton = ttk.Button(frmCreateConsult, text="Submit", command=createConsult)
-submitButton.pack(fill='x', expand=True, padx=90, pady=10)
+submitButton = ttk.Button(frmOperation2, text="Submit", command=createConsult)
+submitButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk.LEFT)
+
 
 
 

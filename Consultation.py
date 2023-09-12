@@ -8,7 +8,7 @@ class Consultation:
         self.__myFee = fee
 
     def __str__(self):
-        return f'{self.__myCDate} {self.__myCDoctor} {self.__myCPatient} // {self.__myCReason} // {self.__myFee} NZD'
+        return f'{self.__myCDate} // {self.__myCDoctor} // {self.__myCPatient} // {self.__myCReason} // {self.__myFee} NZD'
     
     # getter and setter needed
     @property
