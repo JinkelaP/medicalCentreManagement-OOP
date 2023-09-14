@@ -115,13 +115,20 @@ def createDate():
     consultationDate.set(currentDateNew)
     consultationTime.set(currentTimeNew)
 
+# search a user
+
+def searchUser():
+    searchStrGet = searchStr.get()
+    showinfo(title = 'Result', message = cc.searchUser(searchStrGet))
+
+
     
 
 # Initialise Sys
 
 root = tk.Tk()
 root.title("Medical Centre Management System - beta 0.1 made by Haochen")
-root.geometry("600x800+100+100")
+root.geometry("600x900+100+100")
 root.resizable(width=False, height=False)
 
 # widgets
@@ -150,6 +157,22 @@ allConsultButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,s
 frmdisplayInfo = ttk.LabelFrame(root, text='Display')
 frmdisplayInfo.pack(padx=5, pady=5, side=tk.TOP)
 
+
+# search function
+searchStr = tk.StringVar()
+
+frmSearch = ttk.LabelFrame(frmdisplayInfo, text='Search an user by name')
+frmSearch.pack(padx=5, pady=5, side=tk.TOP)
+
+boxSearch = tk.Label(frmSearch,  text="")
+boxSearch.pack(fill=tk.BOTH, side=tk.LEFT)
+
+entrySearch = ttk.Entry(frmSearch, textvariable=searchStr)
+entrySearch.pack(fill='x', expand=True)
+
+searchButton = ttk.Button(frmSearch, text="Submit", command=searchUser)
+searchButton.pack(fill=tk.X, expand=True, padx=5, pady=5, ipadx=5, ipady=3,side=tk.LEFT)
+
 # all patients&doctors label
 frmPatients = ttk.LabelFrame(frmdisplayInfo, text='Patients')
 frmPatients.pack(padx=5, pady=5, side=tk.LEFT)
@@ -164,6 +187,9 @@ frmDocs.pack(padx=5, pady=5, side=tk.LEFT)
 boxDocs = tk.Listbox(frmDocs, exportselection=0, selectmode=tk.BROWSE)
 boxDocs.bind('<Double-Button-1>', displayDocInfo)
 boxDocs.pack(fill=tk.BOTH, padx=20, pady=7,side=tk.LEFT)
+
+
+
 
 #Vars needed
 consultationDate = tk.StringVar()

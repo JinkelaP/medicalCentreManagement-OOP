@@ -21,6 +21,26 @@ class Clinic:
         return 'Doctor created'
 
     # search for a doctor/patient
+    def searchUser(self, name):
+        result = []
+
+        for doctor in self.allDoctors:
+            if name in doctor.myDoctorFName or name in doctor.myDoctorLName:
+                result.append(doctor)
+        
+        for pat in self.allPatients:
+            if name in pat.myPatientFName or name in pat.myPatientLName:
+                result.append(pat)
+        
+        if result == []:
+            return 'No user found!'
+        else:
+            resultStr = 'The following users are found:\n\n'
+            for i in result:
+                resultStr += f'{str(i)}\n'
+            return resultStr
+
+    
     def searchDoctor(self, id):
         for doctor in self.allDoctors:
             if doctor.myDoctorID == id:
